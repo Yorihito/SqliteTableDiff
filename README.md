@@ -39,3 +39,25 @@ key: id
 - PRIMARY KEY が無ければ全列をキーにし、行全体の多重集合として比較します(重複行の個数差も検出)
 - 値の比較は SQLite の意味に従います (`3` と `3.0` は同じ、NULL 同士は同じ)
 - 両テーブルをキー順にソートして読み出しながらマージするため、メモリは行数に依存しません
+
+## 配布用バイナリ (Releases)
+
+[Releases](https://github.com/Yorihito/SqliteTableDiff/releases) に .NET ランタイム不要の実行ファイルを置いています。
+ZIP を展開し、同梱の SQLite ライブラリと同じフォルダに置いたまま実行してください。
+
+| ZIP | 対象 | 中身 |
+|---|---|---|
+| `SqliteTableDiff-win-x64.zip` | Windows 64bit | `SqliteTableDiff.exe`, `e_sqlite3.dll` |
+| `SqliteTableDiff-osx-arm64.zip` | macOS (Apple Silicon) | `SqliteTableDiff`, `libe_sqlite3.dylib` |
+
+```
+SqliteTableDiff.exe a.db b.db
+```
+
+自分でビルドする場合:
+
+```bash
+dotnet publish -c Release -r win-x64 --self-contained -p:PublishSingleFile=true -p:DebugType=none -o dist/win-x64
+```
+
+`-r` を `osx-arm64` / `linux-x64` などに変えると他の OS 向けになります。
